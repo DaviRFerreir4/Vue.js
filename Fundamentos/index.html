@@ -9,6 +9,9 @@
   <body>
     <div id="app">
       <h1>{{message}}</h1>
+      <p>Lucky number: {{luckyNumber}}</p>
+      <p>Lucky numbers list: {{luckyNumbers[1]}}</p>
+      <p>Person: {{person.name}} is {{person.age}} years old</p>
     </div>
   </body>
   <script>
@@ -16,8 +19,19 @@
 
     createApp({
       setup() {
+        const message = "Hello Vue 3!";
+        const luckyNumber = 7;
+        const luckyNumbers = [3, 4, 7, 9, 11, 13, 17];
+        const person = {
+          name: "Davi",
+          age: 22,
+          male: true,
+        };
         return {
-          message: "Hello Vue 3!"
+          message,
+          luckyNumber,
+          luckyNumbers,
+          person,
         };
       },
     }).mount("#app");
