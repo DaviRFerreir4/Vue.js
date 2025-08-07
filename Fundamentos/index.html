@@ -14,7 +14,7 @@
       <p>Lucky number 2: {{luckyNumbers[1]}}</p>
       <p>Lucky number 4 is {{luckyNumbers[3] % 2 == 0 ? "even" : "odd"}}</p>
       <p>Person: {{person.name}} is {{person.age}} years old</p>
-      <p>Random number: {{Math.floor(Math.random() * 10 + 1)}}</p>
+      <p>Random number: {{rndNumber()}}</p>
     </div>
   </body>
   <script>
@@ -29,12 +29,16 @@
           name: "Davi",
           age: 22,
           male: true
-        };
+        }
+        function rndNumber() {
+          return Math.floor(Math.random() * 10 + 1);
+        }
         return {
           message,
           luckyNumber,
           luckyNumbers,
-          person
+          person,
+          rndNumber
         };
       },
     }).mount("#app")
