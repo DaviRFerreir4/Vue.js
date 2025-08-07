@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reatividade do Vue</title>
+  </head>
+  <body>
+    <div id="app">
+      {{message}}
+      {{uppercase()}}
+    </div>
+  </body>
+  <script>
+    const { createApp, ref } = Vue
+
+    const app = createApp({
+      setup() {
+        let message = ref("Hello Vue 3!")
+
+        function uppercase() {
+          console.log(message)
+          setTimeout(() => {
+            message.value = message.value.toUpperCase()
+          }, 3000)
+        }
+
+        return {
+          message,
+          uppercase
+        }
+      }
+    })
+
+    app.mount("#app")
+  </script>
+</html>

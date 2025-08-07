@@ -14,7 +14,8 @@
       <p>Lucky number 2: {{luckyNumbers[1]}}</p>
       <p>Lucky number 4 is {{luckyNumbers[3] % 2 == 0 ? "even" : "odd"}}</p>
       <p>Person: {{person.name}} is {{person.age}} years old</p>
-      <p>Random number: {{rndNumber()}}</p>
+      <p>Random number: {{rndNumber()}}</p><br>
+      <p>Uppercase message: {{returnUppercase("Hello world!")}}</p>
     </div>
   </body>
   <script>
@@ -30,15 +31,22 @@
           age: 22,
           male: true
         }
+
         function rndNumber() {
           return Math.floor(Math.random() * 10 + 1);
         }
+
+        function returnUppercase(message) {
+          return message.toUpperCase();
+        }
+
         return {
           message,
           luckyNumber,
           luckyNumbers,
           person,
-          rndNumber
+          rndNumber,
+          returnUppercase
         };
       },
     }).mount("#app")
