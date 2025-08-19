@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diretivas em View</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <!-- Converte o texto retornado para HTML -->
+      <span v-html="getMessage()">This text is going to be overwritten and show a warning in the console</span>
+      <p>Lucky number is {{luckyNumber}}</p>
+      <!-- Renderiza os elementos somente uma vez, mesmo que ele seja atualizado dinamicamente -->
+      <p v-once>Lucky number is definitely {{luckyNumber}}</p>
+      <!-- Permite utilizar elementos do app em atributos html -->
+      <p><a v-bind:href="documentationURL">Link for the documentation</a></p>
+      <hr>
+      <!-- Mostra o elemento caso a condicional seja verdadeira. Caso seja falsa, adiciona um display none ao estilo do elemento -->
+      <p v-show="employee.has_corporate_card">Spending limit for card: {{employee.spending_limit}}</p>
+      <!-- Elemento é renderizado caso a condicional seja verdadeira. Caso seja falsa, deixa o elemento como um comentário no HTML ou não aparece por cair em outra condicional dependente dessa -->
+      <p v-if="employee.has_corporate_card">Employee has access to a corporate card</p>
+      <!-- É renderizado caso a condição passada seja falsa e essa seja verdadeira -->
+      <p v-else-if="employee.years_with_company >= 10 && employee.salary > 25000">Employee is elegible for a comporate card</p>
+      <!-- É renderizado em último caso -->
+      <p v-else>Employee doesn't have access to a corporate card</p>
+      <hr>
+      <!-- Cria um laço de repetição que controla renderiza o mesmo elemento diversas vezes -->
+      <p v-for="(luckyNumber, index) in luckyNumbers">Showing lucky number {{index + 1}}: {{luckyNumber}}</p>
+      <br>
+      <!-- Exemplo de v-for juntamente com o v-once. (Só é renderizado o primeiro número do objeto) -->
+      <p v-for="(luckyNumber, index) in luckyNumbers">
+        <span v-once>Showing lucky number {{index + 1}}: {{luckyNumber}}</span>
+      </p>
+      <br>
+      <!-- Exemplo de v-for para objetos -->
+      <ul>
+        <li v-for="(value, key, index) in employee">
+          <span>
+            {{index + 1}} - {{key}}: {{value}} = {{typeof value}}
+          </span>
+        </li>
+      </ul>
+      <br>
+      <!-- Adicionando um atributo chave para identificar o item dentro do v-for -->
+      <ul>
+        <li v-for="project in employee.projects" :key="project.project_id">
+          {{project.project_name}} has the time limit of {{project.time_limit}}
+          <br>
+          <input type="text" name="x" id="y">
+        </li>
+      </ul>
+    </div>
+
+    <script>
+      const { createApp, ref, reactive } = Vue
+
+      const app = createApp({
+        setup() {
+          const message = "Hello Vue 3!"
+          let luckyNumber = ref(7)
+          const documentationURL = "https://vuejs.org/guide/introduction.html"
+          const employee = reactive({
+            name: "Davi",
+            age: 22,
+            salary: 50000,
+            has_corporate_card: true,
+            spending_limit: 10000,
+            years_with_company: 10,
+            projects: [
+              { project_id: "1", project_name: "Business Hub", time_limit: "4 years" },
+              { project_id: "2", project_name: "PDA", time_limit: "2 years" },
+              { project_id: "3", project_name: "Business on the Go", time_limit: "3 years" },
+            ]
+          })
+          const luckyNumbers = [4, 7, 9, 11]
+
+          function getMessage() {
+            return `<h1><u>${message}</h1></u>`
+          }
+
+          function reactivity() {
+            setTimeout(() => {
+              luckyNumber.value = 4
+              employee.has_corporate_card = false
+            }, 3000)
+            setTimeout(() => {
+              employee.years_with_company = 5
+            }, 5000)
+          }
+
+          reactivity()
+
+          function shuffleProjects() {
+            setTimeout(() => {
+              employee.projects.sort(() => Math.random()-0.5)
+            }, 5000)
+          }
+
+          shuffleProjects()
+
+          return {
+            getMessage,
+            luckyNumber,
+            documentationURL,
+            employee,
+            luckyNumbers
+          }
+        }
+      })
+
+      app.mount("#app")
+    </script>
+  </body>
+</html>
