@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estilização</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <!-- Estilização do vue usando v-bind (é necessario passar um objeto ou array com as propriedades a serem alteradas) -->
+      <div v-bind:style="{backgroundColor: 'navy'}">
+        <!-- Estilização usando variáveis -->
+        <h1 v-bind:style="{color: 'lightblue', 'font-size': dynamicFontSize + 'px'}">Hello World</h1>
+      </div>
+      <!-- Estilização por classe (depende de um valor boleano). Dependente de uma variável -->
+      <p class="fs-sm" v-bind:class="{'bg-gray': hasBgGray, pink: true}">Hello</p>
+      <!-- Estilizaçao dependente de uma função -->
+      <p class="fs-sm" v-bind:class="{'bg-gray': hasBgGray, pink: true, 'fs-lg': isSecondParagraph()}">Hello</p>
+      <!-- Estilização por classe utilizando um objeto. Demonstrando os parametros sendo passados por uma array. Shorthand de v-bind é ":" -->
+      <p class="fs-sm" :class="[paragraph, fsMd]">Hello</p>
+    </div>
+
+    <script>
+      const { createApp, ref, reactive } = Vue
+
+      const app = createApp({
+        setup() {
+          console.log("Working");
+          let dynamicFontSize = ref(60)
+
+          function changeFontSize(newFontSize) {
+            dynamicFontSize = newFontSize
+          }
+
+          function isSecondParagraph() {
+            return true;
+          }
+
+          let hasBgGray = true;
+
+          const paragraph = {
+            'bg-gray': true,
+            pink: true,
+          }
+
+          const fsMd = {
+            'fs-md': true
+          }
+
+          setTimeout(() => {
+            changeFontSize(20)
+          }, 3000);
+
+          return {
+            dynamicFontSize,
+            isSecondParagraph,
+            hasBgGray,
+            paragraph,
+            fsMd
+          }
+        }
+      })
+
+      app.mount("#app")
+    </script>
+    <style>
+      .fs-sm {
+        font-size: 12px;
+      }
+      .fs-md {
+        font-size: 18px;
+      }
+      .fs-lg {
+        font-size: 24px;
+      }
+      .bg-gray{
+        background-color: darkslategray;
+      }
+      .pink{
+        color: pink;
+      }
+    </style>
+  </body>
+</html>
