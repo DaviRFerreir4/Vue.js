@@ -2,14 +2,29 @@
   <div class="container">
     <div class="bg-info rounded p-4 m-2">
       <div class="row">
-        <label for="contact">Contact Owner Name</label>
-        <input
-          type="text"
-          name="contact"
-          id="contact"
-          class="mb-2"
-          v-model="contactName"
-        />
+        <div class="row">
+          <div class="col-6">
+            <label for="contact">Contact Owner Name</label>
+            <input
+              type="text"
+              name="contact"
+              id="contact"
+              class="mb-2"
+              v-model="contactName"
+            />
+          </div>
+          <div class="col-6">
+            <label for="maxLuckyNumber">Max Lucky Number</label>
+            <input
+              type="number"
+              name="maxLuckyNumber"
+              id="contact"
+              class="mb-2"
+              v-model.number="maxLuckyNumber"
+            />
+          </div>
+        </div>
+        <AddContact @add-contact="onAddContact($event)"></AddContact>
         <div
           class="col-12 bg-secondary mb-2 rounded"
           v-for="contact in contacts"
@@ -19,7 +34,7 @@
             type="text"
             name="contactName"
             id="contactName"
-            class="mb-2"
+            class="mb-2 mt-3"
             v-model.lazy="contact.name"
           />
           <Contact
@@ -27,6 +42,10 @@
             :phone="contact.phone"
             :ownername="contact.ownername"
             :is_favorite="contact.is_favorite"
+            :email="contact.email"
+            @update-favorite="
+              contact.is_favorite = onUpdateFavorite($event, contact.phone)
+            "
           ></Contact>
         </div>
       </div>
@@ -37,8 +56,10 @@
 <script setup>
 // import ButtonCounter from "./components/ButtonCounter.vue"
 // const message = "Hello Vue"
-import { reactive, ref } from "vue"
+import { provide, reactive, ref } from "vue"
 import Contact from "./components/Contact.vue"
+import AddContact from "./components/AddContact.vue"
+
 const contactName = ref("github.com/DaviRFerreir4")
 
 const contacts = reactive([
@@ -63,6 +84,22 @@ const contacts = reactive([
     is_favorite: false,
   },
 ])
+
+let maxLuckyNumber = ref(100)
+provide("maxLuckyNumber", maxLuckyNumber)
+
+function onUpdateFavorite(oldValues, phoneFromParent) {
+  console.log(oldValues.name)
+  console.log(oldValues.is_favorite)
+
+  return !oldValues.is_favorite
+}
+
+function onAddContact(contact) {
+  contact.ownername = contactName.value
+  contact.is_favorite = false
+  contacts.push(contact)
+}
 </script>
 
 <style></style>
