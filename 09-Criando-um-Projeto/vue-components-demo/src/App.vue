@@ -24,7 +24,7 @@
             />
           </div>
         </div>
-        <AddContact @add-contact="onAddContact($event)"></AddContact>
+        <AddContact :onAddContact="onAddContact"></AddContact>
         <div
           class="col-12 bg-secondary mb-2 rounded"
           v-for="contact in contacts"

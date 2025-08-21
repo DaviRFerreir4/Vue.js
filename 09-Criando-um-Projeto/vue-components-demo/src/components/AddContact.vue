@@ -45,9 +45,11 @@ const contact = reactive({
   email: "",
 })
 
-const emit = defineEmits("add-contact")
+const props = defineProps({
+  onAddContact: Function,
+})
 
 function addContact() {
-  emit("add-contact", contact)
+  props.onAddContact(contact)
 }
 </script>
