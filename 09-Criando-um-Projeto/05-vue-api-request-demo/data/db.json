@@ -1,0 +1,32 @@
+{
+  "destination": [
+    {
+      "id": 1,
+      "name": "Bangkok",
+      "days": 7,
+      "fun_fact": "Bangkok is the capital and most populous...",
+      "price": 1000
+    },
+    {
+      "id": 2,
+      "name": "Phuket",
+      "days": 5,
+      "fun_fact": "Phuket is a citiy in Thailand, formerly...",
+      "price": 800
+    },
+    {
+      "id": 3,
+      "name": "Pattaya",
+      "days": 3,
+      "fun_fact": "Pattaya is a city on Thailand's eastern...",
+      "price": 500
+    },
+    {
+      "id": 4,
+      "name": "Chiang Mai",
+      "days": 4,
+      "fun_fact": "Chiang Mai is a city in moutainous...",
+      "price": 600
+    }
+  ]
+}
