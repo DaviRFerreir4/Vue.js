@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forms</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+  </head>
+  <body>
+    <div id="app" class="container">
+      <form action="" @submit.prevent="handleSubmit">
+        <div class="bg-info p-5 m-5 rounded">
+          <div class="h2 text-center">Learn Vue - Forms</div>
+          <hr>
+          <div class="input-group mt-3">
+            <span class="input-group-text">Name</span>
+            <input type="text" name="name" id="name" class="form-control" v-model.trim="formObj.name" @blur="validateName"><br>
+          </div>
+          <div class="text-danger text-center" v-if="!formObj.is_name_valid">Name should be at least 3 character long</div>
+          <div class="input-group mt-3">
+            <span class="input-group-text">Email</span>
+            <input type="email" name="email" id="email" class="form-control" v-model.trim="formObj.email" @blur="validateEmail">
+          </div>
+          <div class="text-danger text-center" v-if="!formObj.is_email_valid">Please inform an email</div>
+          <div class="input-group mt-3 mb-3">
+            <span class="input-group-text">Phone</span>
+            <input type="text" name="phone" id="phone" class="form-control" v-model.number="formObj.phone">
+          </div>
+          <div class="border p-1">
+            <label class="form-label">Gender</label><br>
+            <div class="form-check form-check-inline">
+              <input type="radio" name="inlineRadioOptions" id="male" value="male" class="form-check-input" v-model="formObj.gender">Male</input>
+            </div>
+            <div class="form-check form-check-inline">
+              <input type="radio" name="inlineRadioOptions" id="female" value="female" class="form-check-input" v-model="formObj.gender">Female</input>
+            </div>
+            <br><br>
+            <select name="selectOptions" id="gender" class="form-select" v-model="formObj.gender">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div><br>
+          <div class="input-group mb-3">
+            <input type="checkbox" name="subscribe" id="subscribe" class="form-check-input me-2" v-model="formObj.subscribe">
+            <label for="subscribe" class="form-check-label">Subscribe to the newsletter</label>
+          </div>
+          <ul>
+            <li v-for="error in errorList" class="text-danger">{{error}}</li>
+          </ul>
+          <div class="text-center pb-3">
+            <button class="btn btn-secondary m-2 w-50">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      const { createApp, ref, reactive, computed, watch } = Vue
+
+      const app = createApp({
+        setup() {
+          // console.log("Working")
+
+          const formObj = reactive({
+            name: "",
+            gender: "",
+            email: "",
+            phone: "",
+            subscribe: false,
+            is_name_valid: true,
+            is_email_valid: true
+          })
+
+          const errorList = reactive([])
+
+          function handleSubmit() {
+            // console.log(formObj);
+            errorList.length = 0
+            if (formObj.name.length < 3) {
+              errorList.push("Name should be at least 3 character long")
+            }
+            if (formObj.email === "") {
+              errorList.push("Please inform an email")
+            }
+            if (!formObj.subscribe) {
+              errorList.push("Please subscribe to the newsletter")
+            }
+            if(!errorList.length) {
+              alert("Form submited successfully")
+            }
+          }
+
+          function validateName() {
+            if (formObj.name.length < 3) {
+              formObj.is_name_valid = false
+            } else {
+              formObj.is_name_valid = true
+            }
+          }
+
+          function validateEmail() {
+            if (formObj.email === "") {
+              formObj.is_email_valid = false
+            } else {
+              formObj.is_email_valid = true
+            }
+          }
+
+          return{formObj, errorList, handleSubmit, validateName, validateEmail}
+        }
+      })
+
+      app.mount("#app")
+    </script>
+  </body>
+</html>

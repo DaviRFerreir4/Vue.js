@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Bidings</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      Hello World!<br><br>
+      <!-- Criando um vinculo de duas mãos (se o valor é atualizado via js, o valor do input muda vice versa). ".trim" remove os espaços em branco no inicio e fim do valor depois de sair do input -->
+      Name: <input type="text" name="name" id="name" v-model.trim="name"><br>
+      <!-- ".lazy" altera o valor somente depois de sair do input -->
+      Age: <input type="number" name="age" id="age" v-model.lazy="age" v-on:focusout="show"><br>
+      <!-- Não entendi o ".number" :| -->
+      Age: <input type="number" name="age" id="age" v-model.number="age" v-on:focusout="show">
+      <p>{{name}} is {{age}} years old</p>
+      <hr>
+      <p>{{counter}}</p>
+      <!-- Se a função não for computada, ela será executada toda vez que o valor de uma ref for atualizada (pois quando uma ref é atualizada o app inteiro é atualizado) -->
+      <p>{{getFullName}}</p>
+      <button v-on:click="counter++">Increment</button>
+      <button v-on:click="counter--">Decrement</button>
+      <br><br>
+      First Name: <input type="text" name="firstName" id="firstName" v-model.lazy="firstName">
+      <br>
+      <p>{{obj.count}}</p>
+      <button v-on:click="obj.count++">Increment</button>
+      <button v-on:click="obj.count--">Decrement</button>
+    </div>
+
+    <script>
+      const { createApp, ref, reactive, computed, watch } = Vue
+
+      const app = createApp({
+        setup() {
+          // console.log("Working!")
+          let name = ref("Davi")
+          let age = ref(22)
+
+          function changeAgeWithDelay() {
+            setTimeout(() => {
+              age.value = 28
+            }, 3000);
+          }
+          
+          changeAgeWithDelay()
+
+          function show() {
+            console.log(age.value)
+          }
+
+          let counter = ref(0)
+          let firstName = ref("Davi")
+          let surname = ref("Ferreira")
+
+          // É possível retornar o último valor em cache de uma função "computed" passando o parâmetro "previous" na arrow function 
+          const getFullName = computed((previous) => {
+            if (previous === "Davi Ferreira") {
+              console.log("Essa é sua primeira alteração")
+            } else if (previous !== undefined) {
+              console.log("Previous value: ", previous)
+            }
+            return `${firstName.value} ${surname.value}`
+          })
+
+          // Vigia um valor. Caso ele mude, realiza o que está descrito no método do segundo parâmetro. O primeiro parâmetro deve ser um getter, mas se o que estiver sendo assistido for um ref não há necessidade do getter, só do elemento
+          watch(counter, (newValue, oldValue) => {
+            console.log(`Counter value changed from ${oldValue} to ${newValue}`)
+            if (counter.value === 5) {
+              alert(`Value is 5`)
+            }
+          })
+
+          const obj = reactive({ count: 0 })
+
+          // Em casos de elementos utilizando o reactive(), é necessario declarar um getter como primeiro parâmetro do watch()
+          watch(() => obj.count, (newValue, oldValue) => {
+            console.log(`Count value changed from ${oldValue} to ${newValue}`)
+          })
+
+          return {
+            show,
+            getFullName,
+            name,
+            age,
+            counter,
+            firstName,
+            obj
+          }
+        }
+      })
+
+      app.mount("#app")
+    </script>
+  </body>
+</html>

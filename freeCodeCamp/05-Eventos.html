@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      Hello World!
+      <!-- Utilizando v-on para capturar eventos e passando o parâmetro de evento junto com outros parâmetros -->
+      <form action="">
+        <!-- Previnindo o comportamento padrão do elemento adicionando o ".prevent" -->
+        <a href="https://www.google.com" target="_blank" v-on:click.prevent="buttonClicked('Vue is exciting (kind of.) - a', $event)">Google</a>
+        <!-- Acionando a função do evento apenas uma vez com o ".once" -->
+        <div v-on:click.once.right="buttonClicked('Vue is exciting (kind of.) - div with right click', $event)">
+          <p>x: {{x}} | y: {{y}}</p>
+          <!-- Interrompendo outros eventos com o ".stop" -->
+          <button type="button" v-on:click.stop="buttonClicked('Vue is exciting (kind of.) - button', $event)">Click me!</button>
+        </div>
+      </form>
+      <br>
+      <!-- Capturando somente o evento de keyup da tecla enter -->
+      <input type="text" v-on:keyup.enter.ctrl="pressEnter">
+    </div>
+
+    <script>
+      const { createApp, ref, reactive } = Vue
+
+      const app = createApp({
+        setup() {
+          // console.log("Working")
+          let x = ref(0)
+          let y = ref(0)
+
+          function buttonClicked(newMessage, event) {
+            // event.preventDefault();
+            x.value = event.x
+            y.value = event.y
+            
+            alert(newMessage)
+          }
+
+          function pressEnter() {
+            alert("Ctrl + Enter key pressed")
+          }
+          
+          return {
+            buttonClicked,
+            pressEnter,
+            x,
+            y
+          }
+        }
+      })
+
+      app.mount("#app")
+    </script>
+  </body>
+</html>

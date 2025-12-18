@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reatividade do Vue</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>{{message}}</h1>
+      <p>{{employee.name.first_name}} is an {{employee.role}} in {{employee.enterprise}}</p>
+      <p>His salary is {{employee.salary}}</p>
+      {{reactivity()}}
+    </div>
+  </body>
+  <script>
+    const { createApp, ref, reactive } = Vue
+
+    const app = createApp({
+      setup() {
+        let message = ref("Hello Vue 3!")
+        const employee = reactive({
+          name: {
+            first_name: "Davi",
+            surename: "Ferreira"
+          },
+          age: 22,
+          enterprise: "Hyundai AutoEver",
+          role: "Intern",
+          salary: 1300,
+        })
+        // let message = "Hello Vue 3!"
+
+        function reactivity() {
+          console.log(message)
+          setTimeout(() => {
+            employee.salary += 2000
+            employee.role = "Jr. Analyst"
+            message.value = message.value.toUpperCase()
+          }, 3000)
+        }
+
+        return {
+          message,
+          reactivity,
+          employee
+        }
+      }
+    })
+
+    app.mount("#app")
+  </script>
+</html>

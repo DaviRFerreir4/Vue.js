@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fundamentos do Vue</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>{{message}}</h1>
+      <p>Lucky number: {{luckyNumber}}</p>
+      <p>Lucky numbers list: {{luckyNumbers}}</p>
+      <p>Lucky number 2: {{luckyNumbers[1]}}</p>
+      <p>Lucky number 4 is {{luckyNumbers[3] % 2 == 0 ? "even" : "odd"}}</p>
+      <p>Person: {{person.name}} is {{person.age}} years old</p>
+      <p>Random number: {{rndNumber()}}</p><br>
+      <p>Uppercase message: {{returnUppercase("Hello world!")}}</p>
+    </div>
+  </body>
+  <script>
+    const { createApp } = Vue
+
+    createApp({
+      setup() {
+        const message = "Hello Vue 3!"
+        const luckyNumber = 7
+        const luckyNumbers = [3, 4, 7, 9, 11, 13, 17]
+        const person = {
+          name: "Davi",
+          age: 22,
+          male: true
+        }
+
+        function rndNumber() {
+          return Math.floor(Math.random() * 10 + 1);
+        }
+
+        function returnUppercase(message) {
+          return message.toUpperCase();
+        }
+
+        return {
+          message,
+          luckyNumber,
+          luckyNumbers,
+          person,
+          rndNumber,
+          returnUppercase
+        };
+      },
+    }).mount("#app")
+  </script>
+</html>
