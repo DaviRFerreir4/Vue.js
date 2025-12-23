@@ -16,10 +16,7 @@
     name: 'TaskItem',
     props: {
       task: {
-        type: Object as PropType<{
-          id: number
-          done: boolean
-        }>,
+        type: Object as PropType<ITask>,
       },
     },
     computed: {

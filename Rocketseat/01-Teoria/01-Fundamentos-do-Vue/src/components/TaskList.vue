@@ -27,7 +27,10 @@
       </div>
     </div>
 
-    <span>Componente dos contadores</span>
+    <div class="watch-output">
+      <h3>Saída do Watch ( Console )</h3>
+      <div class="log-container">{{ watchLogs }}</div>
+    </div>
   </div>
 </template>
 
@@ -45,6 +48,7 @@
           { id: 1234, done: false },
           { id: 4321, done: true },
         ],
+        watchLogs: [] as string[],
       }
     },
     methods: {
@@ -60,6 +64,39 @@
         if (task) {
           task.done = !task.done
         }
+      },
+      logWatch(message: string) {
+        this.watchLogs.unshift(
+          ` [${new Date().toLocaleDateString()}]  ${message}`
+        )
+      },
+    },
+    watch: {
+      tasks: {
+        handler(newValue: ITask[], oldValue: ITask[]) {
+          const message = `Lista de Tasks mudou! Itens: ${newValue.length}`
+          this.logWatch(message)
+          // if (oldValue) {
+          //   const modified = newValue.filter((newTasks) => {
+          //     const oldTask = oldValue.find((oldTasks) => {
+          //       return oldTasks.id === newTasks.id
+          //     })
+          //     return (
+          //       oldTask && JSON.stringify(newTasks) !== JSON.stringify(oldTask)
+          //     )
+          //   })
+          //   if (modified.length > 0) {
+          //     const modifyMsg = `Tarefas Modificadas: ${modified
+          //       .map((task) => {
+          //         return task.id
+          //       })
+          //       .join(', ')}`
+          //     this.logWatch(modifyMsg)
+          //   }
+          // }
+        },
+        deep: true,
+        immediate: true,
       },
     },
   }
@@ -158,5 +195,25 @@
   .completed-tasks {
     background-color: #f1fff1;
     border-color: #d4edda;
+  }
+
+  .watch-output {
+    padding: 15px;
+    border-radius: 6px;
+
+    text-align: center;
+    color: white;
+    background-color: #2c3e50;
+  }
+
+  .log-container {
+    max-height: 200px;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    overflow-y: auto;
+
+    font-family: monospace;
+    background-color: #1a252f;
   }
 </style>
