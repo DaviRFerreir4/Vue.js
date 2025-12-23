@@ -1,32 +1,22 @@
 <template>
-  <div class="container">
-    <Box name="Davi" :age="22" />
-    <Box name="Thiago" :age="18" />
-    <Box name="Murilo" :age="34" status="inactive" />
-  </div>
+  <BoxContainer />
   <div class="container">
     <div class="button-container">
       <h2>{{ count }}</h2>
-      <div>
-        <div>
-          <Button title="+1" @update="incrementCount" />
-          <Button title="-1" @update="decrementCount" />
-        </div>
-        <Button title="Zerar" @update="clear" />
-      </div>
+      <CounterButtons @change-count="handleCountChange" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-  import Box from './components/Box.vue'
-  import Button from './components/Button.vue'
+  import BoxContainer from './components/BoxContainer.vue'
+  import CounterButtons from './components/CounterButtons.vue'
 
   export default {
     name: 'App',
     components: {
-      Box,
-      Button,
+      BoxContainer,
+      CounterButtons,
     },
     data() {
       return {
@@ -34,20 +24,27 @@
       }
     },
     methods: {
-      incrementCount() {
-        this.count++
-      },
-      decrementCount() {
-        this.count--
-      },
-      clear() {
-        this.count = 0
+      handleCountChange(
+        action: 'increment' | 'decrement' | 'clear',
+        value = 1
+      ) {
+        switch (action) {
+          case 'increment':
+            this.count += value
+            break
+          case 'decrement':
+            this.count -= value
+            break
+          case 'clear':
+            this.count = 0
+            break
+        }
       },
     },
   }
 </script>
 
-<style scoped>
+<style>
   .container {
     padding: 10px;
     border: 1px solid black;
@@ -63,15 +60,5 @@
   .button-container {
     display: grid;
     justify-items: center;
-
-    & > div {
-      display: grid;
-      gap: 10px;
-
-      & > div {
-        display: flex;
-        gap: 10px;
-      }
-    }
   }
 </style>
