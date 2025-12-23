@@ -1,10 +1,16 @@
 <template>
-  <button @click="$emit('increment')">+1</button>
+  <button @click="$emit('update')">{{ title }}</button>
 </template>
 
 <script lang="ts">
   export default {
     name: 'Button',
+    props: {
+      title: {
+        type: String,
+        default: '+1',
+      },
+    },
   }
 </script>
 

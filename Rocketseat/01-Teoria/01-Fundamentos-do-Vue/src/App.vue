@@ -7,7 +7,13 @@
   <div class="container">
     <div class="button-container">
       <h2>{{ count }}</h2>
-      <Button @increment="incrementCount" />
+      <div>
+        <div>
+          <Button title="+1" @update="incrementCount" />
+          <Button title="-1" @update="decrementCount" />
+        </div>
+        <Button title="Zerar" @update="clear" />
+      </div>
     </div>
   </div>
 </template>
@@ -31,6 +37,12 @@
       incrementCount() {
         this.count++
       },
+      decrementCount() {
+        this.count--
+      },
+      clear() {
+        this.count = 0
+      },
     },
   }
 </script>
@@ -51,5 +63,15 @@
   .button-container {
     display: grid;
     justify-items: center;
+
+    & > div {
+      display: grid;
+      gap: 10px;
+
+      & > div {
+        display: flex;
+        gap: 10px;
+      }
+    }
   }
 </style>
