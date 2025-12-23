@@ -75,6 +75,9 @@
       count(newValue) {
         localStorage.setItem('count', newValue)
       },
+      changeColorCount(newValue) {
+        alert(`Nova cor selecionada: ${newValue}`)
+      },
     },
   }
 </script>
