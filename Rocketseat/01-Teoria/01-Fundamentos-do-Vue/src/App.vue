@@ -33,7 +33,7 @@
     },
     data() {
       return {
-        count: 0,
+        count: Number(localStorage.getItem('count')) ?? 0,
       }
     },
     methods: {
@@ -69,6 +69,11 @@
           return 'Positivo'
         }
         return 'Negativo'
+      },
+    },
+    watch: {
+      count(newValue) {
+        localStorage.setItem('count', newValue)
       },
     },
   }
