@@ -1,8 +1,8 @@
 <template>
   <div class="container-box">
-    <Box />
-    <Box />
-    <Box />
+    <Box name="Davi" :age="22" />
+    <Box name="Thiago" :age="18" />
+    <Box name="Murilo" :age="34" />
   </div>
 </template>
 
