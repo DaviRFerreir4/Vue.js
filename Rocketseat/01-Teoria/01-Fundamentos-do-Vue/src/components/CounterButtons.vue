@@ -1,10 +1,19 @@
 <template>
   <div>
+    Valor atual de count: {{ countValue }}
     <div class="flex">
       <Button title="+1" @update="$emit('change-count', 'increment')" />
-      <Button title="-1" @update="$emit('change-count', 'decrement')" />
+      <Button
+        title="-1"
+        @update="$emit('change-count', 'decrement')"
+        :disabled="cantDecrement"
+      />
     </div>
-    <Button title="Zerar" @update="$emit('change-count', 'clear')" />
+    <Button
+      title="Zerar"
+      @update="$emit('change-count', 'clear')"
+      :disabled="cantReset"
+    />
   </div>
 </template>
 
@@ -15,6 +24,17 @@
     name: 'CountContainer',
     components: {
       Button,
+    },
+    props: {
+      countValue: { type: Number, required: true },
+    },
+    computed: {
+      cantDecrement() {
+        return this.countValue <= -10
+      },
+      cantReset() {
+        return this.countValue === 0
+      },
     },
     emits: ['change-count'],
   }
@@ -28,5 +48,6 @@
 
   .flex {
     display: flex;
+    justify-content: space-evenly;
   }
 </style>

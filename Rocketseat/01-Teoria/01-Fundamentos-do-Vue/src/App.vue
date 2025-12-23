@@ -9,7 +9,14 @@
       >
         {{ count }}
       </h2>
-      <CounterButtons @change-count="handleCountChange" />
+      <CounterButtons @change-count="handleCountChange" :count-value="count" />
+      <p
+        :style="{
+          color: changeColorCount,
+        }"
+      >
+        {{ countState }}
+      </p>
     </div>
   </div>
 </template>
@@ -56,6 +63,12 @@
           return 'red'
         }
         return 'black'
+      },
+      countState() {
+        if (this.count >= 0) {
+          return 'Positivo'
+        }
+        return 'Negativo'
       },
     },
   }
