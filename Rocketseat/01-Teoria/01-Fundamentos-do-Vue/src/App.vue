@@ -2,7 +2,13 @@
   <BoxContainer />
   <div class="container">
     <div class="button-container">
-      <h2>{{ count }}</h2>
+      <h2
+        :style="{
+          color: changeColorCount,
+        }"
+      >
+        {{ count }}
+      </h2>
       <CounterButtons @change-count="handleCountChange" />
     </div>
   </div>
@@ -39,6 +45,17 @@
             this.count = 0
             break
         }
+      },
+    },
+    computed: {
+      changeColorCount() {
+        if (this.count > 0) {
+          return 'green'
+        }
+        if (this.count < 0) {
+          return 'red'
+        }
+        return 'black'
       },
     },
   }
