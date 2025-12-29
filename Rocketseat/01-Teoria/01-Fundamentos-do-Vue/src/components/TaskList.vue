@@ -12,24 +12,30 @@
       <div class="pending-tasks">
         <h3>Tarefas Pendentes</h3>
         <TaskItem
-          :task="tasks[0]"
+          :task="task"
           @toggle-done="toggleTaskDone"
           @remove-task="removeTask"
+          v-for="task in pendingTasks"
+          :key="task.id"
         />
       </div>
       <div class="completed-tasks">
         <h3>Tarefas Concluídas</h3>
         <TaskItem
-          :task="tasks[1]"
+          :task="task"
           @toggle-done="toggleTaskDone"
           @remove-task="removeTask"
+          v-for="task in completedTasks"
+          :key="task.id"
         />
       </div>
     </div>
 
     <div class="watch-output">
       <h3>Saída do Watch ( Console )</h3>
-      <div class="log-container">{{ watchLogs }}</div>
+      <div class="log-container">
+        <p v-for="log in watchLogs" :key="log.length">{{ log }}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -67,7 +73,7 @@
       },
       logWatch(message: string) {
         this.watchLogs.unshift(
-          ` [${new Date().toLocaleDateString()}]  ${message}`
+          `[${new Date().toLocaleDateString()}]  ${message}`
         )
       },
     },
@@ -97,6 +103,14 @@
         },
         deep: true,
         immediate: true,
+      },
+    },
+    computed: {
+      completedTasks() {
+        return this.tasks.filter((task) => task.done)
+      },
+      pendingTasks() {
+        return this.tasks.filter((task) => !task.done)
       },
     },
   }
@@ -211,9 +225,14 @@
     margin-top: 10px;
     padding: 10px;
     border-radius: 4px;
+    display: grid;
     overflow-y: auto;
 
     font-family: monospace;
     background-color: #1a252f;
+
+    p {
+      margin-block: 6px;
+    }
   }
 </style>
