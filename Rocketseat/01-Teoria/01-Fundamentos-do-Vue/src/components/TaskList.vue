@@ -1,6 +1,6 @@
 <template>
   <div class="tasklist-container">
-    <h2>Lista de Tarefas</h2>
+    <h2 v-once>Lista de Tarefas</h2>
 
     <div class="controls">
       <button class="btn" :class="btnAddClass" :onclick="handleShowForm">
@@ -17,12 +17,12 @@
         class="task-input"
         v-model="newTaskTitle"
       />
-      <button class="btn add" :onclick="addTask">Adicionar</button>
+      <button class="btn add" :onclick="addTask" v-once>Adicionar</button>
     </div>
 
     <div class="tasks-container">
       <div class="pending-tasks">
-        <h3>Tarefas Pendentes</h3>
+        <h3 v-once>Tarefas Pendentes</h3>
 
         <p v-if="pendingTasks.length === 0">Não há tarefas pendentes</p>
 
@@ -37,7 +37,7 @@
         </div>
       </div>
       <div class="completed-tasks">
-        <h3>Tarefas Concluídas</h3>
+        <h3 v-once>Tarefas Concluídas</h3>
 
         <p v-if="completedTasks.length === 0">Não há tarefas concluídas</p>
 
@@ -54,7 +54,7 @@
     </div>
 
     <div>
-      <h3>Resumo</h3>
+      <h3 v-once>Resumo</h3>
       <p v-if="tasks.length === 0">Você ainda não possui tarefas</p>
       <p v-else-if="pendingTasks.length > 0 && completedTasks.length === 0">
         Você possui {{ pendingTasks.length }} tarefas pendentes
@@ -69,7 +69,7 @@
     </div>
 
     <div class="watch-output">
-      <h3>Saída do Watch ( Console )</h3>
+      <h3 v-once>Saída do Watch ( Console )</h3>
       <div class="log-container">
         <p v-for="log in watchLogs" :key="log.length">{{ log }}</p>
       </div>
@@ -119,7 +119,7 @@
         if (this.newTaskTitle.trim() === '') return
 
         this.tasks.push({
-          id: Number(String(Date.now()).substring(0, 4)),
+          id: Number(String(Date.now()).slice(-4)),
           title: this.newTaskTitle,
           done: false,
         })
