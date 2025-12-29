@@ -1,7 +1,8 @@
 <template>
   <div class="task-item">
     <span class="task-id"># {{ task?.id }}</span>
-    <span class="task-status">{{ statusText }}</span>
+    <span class="task-status">{{ task?.title }}</span>
+
     <button class="btn toggle" @click="toggleDone">
       {{ btnToggleText }}
     </button>

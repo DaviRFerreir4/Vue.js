@@ -8,6 +8,16 @@
       <button class="btn clear">Limpar concluídas</button>
     </div>
 
+    <div class="add-task-container">
+      <input
+        type="text"
+        placeholder="Digite o título da tarefa"
+        class="task-input"
+        v-model="newTaskTitle"
+      />
+      <button class="btn add" :onclick="addTask">Adicionar</button>
+    </div>
+
     <div class="tasks-container">
       <div class="pending-tasks">
         <h3>Tarefas Pendentes</h3>
@@ -51,10 +61,11 @@
     data() {
       return {
         tasks: [
-          { id: 1234, done: false },
-          { id: 4321, done: true },
+          { id: 1234, title: 'Tarefa exemplo 1', done: false },
+          { id: 4321, title: 'Tarefa exemplo 2', done: true },
         ],
         watchLogs: [] as string[],
+        newTaskTitle: '',
       }
     },
     methods: {
@@ -75,6 +86,15 @@
         this.watchLogs.unshift(
           `[${new Date().toLocaleDateString()}]  ${message}`
         )
+      },
+      addTask() {
+        if (this.newTaskTitle.trim() === '') return
+
+        this.tasks.push({
+          id: Number(String(Date.now()).substring(0, 4)),
+          title: this.newTaskTitle,
+          done: false,
+        })
       },
     },
     watch: {
@@ -234,5 +254,19 @@
     p {
       margin-block: 6px;
     }
+  }
+
+  .add-task-container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .task-input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 300px;
   }
 </style>
