@@ -29,6 +29,7 @@
         <div v-else>
           <TaskItem
             :task="task"
+            v-memo="[task.done, task.title]"
             @toggle-done="toggleTaskDone"
             @remove-task="removeTask"
             v-for="task in pendingTasks"
@@ -44,6 +45,7 @@
         <div v-else>
           <TaskItem
             :task="task"
+            v-memo="[task.done, task.title]"
             @toggle-done="toggleTaskDone"
             @remove-task="removeTask"
             v-for="task in completedTasks"
