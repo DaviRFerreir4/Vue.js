@@ -3,12 +3,14 @@
     <h2>Lista de Tarefas</h2>
 
     <div class="controls">
-      <button class="btn add">Adicionar nova tarefa</button>
+      <button class="btn" :class="btnAddClass" :onclick="handleShowForm">
+        {{ btnAddText }}
+      </button>
       <button class="btn toggle-all">Marcar todas</button>
       <button class="btn clear">Limpar concluídas</button>
     </div>
 
-    <div class="add-task-container">
+    <div class="add-task-container" v-if="showForm">
       <input
         type="text"
         placeholder="Digite o título da tarefa"
@@ -66,6 +68,7 @@
         ],
         watchLogs: [] as string[],
         newTaskTitle: '',
+        showForm: false,
       }
     },
     methods: {
@@ -95,6 +98,9 @@
           title: this.newTaskTitle,
           done: false,
         })
+      },
+      handleShowForm() {
+        this.showForm = !this.showForm
       },
     },
     watch: {
@@ -131,6 +137,18 @@
       },
       pendingTasks() {
         return this.tasks.filter((task) => !task.done)
+      },
+      btnAddText() {
+        if (this.showForm) {
+          return 'Fechar'
+        }
+        return 'Adicionar nova tarefa'
+      },
+      btnAddClass() {
+        if (this.showForm) {
+          return 'clear'
+        }
+        return 'add'
       },
     },
   }
