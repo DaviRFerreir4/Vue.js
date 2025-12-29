@@ -23,24 +23,49 @@
     <div class="tasks-container">
       <div class="pending-tasks">
         <h3>Tarefas Pendentes</h3>
-        <TaskItem
-          :task="task"
-          @toggle-done="toggleTaskDone"
-          @remove-task="removeTask"
-          v-for="task in pendingTasks"
-          :key="task.id"
-        />
+
+        <p v-if="pendingTasks.length === 0">Não há tarefas pendentes</p>
+
+        <div v-else>
+          <TaskItem
+            :task="task"
+            @toggle-done="toggleTaskDone"
+            @remove-task="removeTask"
+            v-for="task in pendingTasks"
+            :key="task.id"
+          />
+        </div>
       </div>
       <div class="completed-tasks">
         <h3>Tarefas Concluídas</h3>
-        <TaskItem
-          :task="task"
-          @toggle-done="toggleTaskDone"
-          @remove-task="removeTask"
-          v-for="task in completedTasks"
-          :key="task.id"
-        />
+
+        <p v-if="completedTasks.length === 0">Não há tarefas concluídas</p>
+
+        <div v-else>
+          <TaskItem
+            :task="task"
+            @toggle-done="toggleTaskDone"
+            @remove-task="removeTask"
+            v-for="task in completedTasks"
+            :key="task.id"
+          />
+        </div>
       </div>
+    </div>
+
+    <div>
+      <h3>Resumo</h3>
+      <p v-if="tasks.length === 0">Você ainda não possui tarefas</p>
+      <p v-else-if="pendingTasks.length > 0 && completedTasks.length === 0">
+        Você possui {{ pendingTasks.length }} tarefas pendentes
+      </p>
+      <p v-else-if="completedTasks.length > 0 && pendingTasks.length === 0">
+        Todas as tarefas foram concluídas
+      </p>
+      <p v-else>
+        Você tem {{ pendingTasks.length }} pendentes e
+        {{ completedTasks.length }} concluídas
+      </p>
     </div>
 
     <div class="watch-output">
