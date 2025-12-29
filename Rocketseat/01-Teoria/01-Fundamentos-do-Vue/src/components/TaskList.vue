@@ -15,7 +15,7 @@
         type="text"
         placeholder="Digite o título da tarefa"
         class="task-input"
-        v-model="newTaskTitle"
+        v-model.lazy="newTaskTitle"
       />
       <button class="btn add" :onclick="addTask" v-once>Adicionar</button>
     </div>
@@ -73,7 +73,9 @@
     <div class="watch-output">
       <h3 v-once>Saída do Watch ( Console )</h3>
       <div class="log-container">
-        <p v-for="log in watchLogs" :key="log.length">{{ log }}</p>
+        <p v-for="log in watchLogs" :key="watchLogs.length" v-memo="log">
+          {{ log }}
+        </p>
       </div>
     </div>
   </div>
@@ -97,6 +99,36 @@
         newTaskTitle: '',
         showForm: false,
       }
+    },
+    beforeCreate() {
+      console.log('TaskList -> beforeCreate chamado')
+      console.log(`TaskList -> this.tasks é ${this.tasks}`)
+    },
+    created() {
+      console.log('TaskList -> created chamado')
+      const savedTasks = localStorage.getItem('tasklist')
+      if (savedTasks) {
+        try {
+          this.tasks = JSON.parse(savedTasks)
+        } catch (error: any) {
+          alert('Erro ao carregar tarefas')
+        }
+      }
+      console.log(`TaskList -> Agora this.tasks é ${this.tasks}`)
+    },
+    beforeMount() {
+      console.log('TaskList -> beforeMount chamado')
+      console.log(`TaskList -> Agora this.tasks é ${this.tasks}`)
+    },
+    mounted() {
+      console.log('TaskList -> mounted chamado')
+      console.log(`TaskList -> Agora this.tasks é ${this.tasks}`)
+    },
+    beforeUpdate() {
+      console.log('TaskList -> Antes de atualizar a DOM')
+    },
+    updated() {
+      console.log('TaskList -> Depois de atualizar')
     },
     methods: {
       removeTask(taskId: number) {
@@ -135,6 +167,11 @@
         handler(newValue: ITask[], oldValue: ITask[]) {
           const message = `Lista de Tasks mudou! Itens: ${newValue.length}`
           this.logWatch(message)
+          try {
+            localStorage.setItem('tasklist', JSON.stringify(newValue))
+          } catch (error: any) {
+            alert('Erro ao salvar as tarefas')
+          }
           // if (oldValue) {
           //   const modified = newValue.filter((newTasks) => {
           //     const oldTask = oldValue.find((oldTasks) => {
@@ -155,7 +192,7 @@
           // }
         },
         deep: true,
-        immediate: true,
+        immediate: false,
       },
     },
     computed: {

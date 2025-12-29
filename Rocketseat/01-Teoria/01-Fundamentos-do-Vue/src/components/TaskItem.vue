@@ -20,6 +20,18 @@
         type: Object as PropType<ITask>,
       },
     },
+    beforeMount() {
+      console.log('TaskItem -> TaskItem será montado')
+    },
+    mounted() {
+      console.log(`TaskItem -> ${this.task?.id} montado`)
+    },
+    beforeUnmount() {
+      console.log(`TaskItem -> A tarefa ${this.task?.id} será desmontada`)
+    },
+    unmounted() {
+      console.log(`TaskItem -> A tarefa ${this.task?.id} foi desmontada`)
+    },
     computed: {
       btnToggleText() {
         return this.task?.done ? 'Desfazer' : 'Concluir'
